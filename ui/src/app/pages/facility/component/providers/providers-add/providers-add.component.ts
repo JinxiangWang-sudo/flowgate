@@ -43,12 +43,12 @@ savecountry(country:string){
 
   cancle(){ this.router.navigate(["/ui/nav/facility/providers/providers-list"]);}
   save(){
-    alert(this.my_asset.category1);
+    // alert(this.my_asset.category1);
     this.loading = true;
     this.service.Addmyasset(this.my_asset).subscribe(
       (data)=>{
         if(data.status == 201){
-          alert(data);
+          // alert(data);
           this.loading = false;
           this.router.navigate(["/ui/nav/facility/providers/providers-list"]);
         }
