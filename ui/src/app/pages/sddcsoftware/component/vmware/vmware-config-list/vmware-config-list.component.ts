@@ -133,12 +133,7 @@ export class VmwareConfigListComponent implements OnInit {
     this.service.getVmwareConfigData(currentPage,pageSize).subscribe(
       (data)=>{if(data.status == 200){
         this.vmwareConfigs = data.json().content;
-        this.vmwareConfigs.forEach(element=>{  
-          if(element.type == "VRO"){
-            element.type = "vROps";
-          }else if(element.type == "VCENTER"){
-            element.type ="vCenter";
-          }  
+        this.vmwareConfigs.forEach(element=>{    
           this.checkStatus(element);
         })
         this.currentPage = data.json().number+1;

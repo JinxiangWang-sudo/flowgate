@@ -46,7 +46,6 @@ export class DcimListComponent implements OnInit {
   editStatusDcimId:string = "";
   statusErrorMsg = "";
   dcimModule:FacilityModule = new FacilityModule();
-  types:string = "Nlyte,PowerIQ,OtherDCIM";
   checkStatus(element:any):any{
     var status = {
       "status":"ACTIVE",
@@ -140,11 +139,14 @@ export class DcimListComponent implements OnInit {
 	}
   getDcimConfigdatas(currentPage,pageSize){
     this.dcimConfigs = [];
-    this.service.getDcimConfigData(currentPage,pageSize,this.types).subscribe(
+    this.service.getDcimConfigData(currentPage,pageSize).subscribe(
       (data)=>{if(data.status == 200){     
-            this.dcimConfigs = data.json().content;
-            this.dcimConfigs.forEach(element=>{   
+            var types:string[]=["Nlyte","PowerIQ","OtherDCIM"]; 
+            data.json().content.forEach(element=>{
+              if(types.indexOf(element.type) != -1){                 
                 this.checkStatus(element);
+                this.dcimConfigs.push(element);
+              }
             })
             this.currentPage = data.json().number+1;
             this.totalPage = data.json().totalPages

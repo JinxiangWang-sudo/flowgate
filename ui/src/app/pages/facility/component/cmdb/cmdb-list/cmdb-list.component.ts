@@ -47,7 +47,6 @@ export class CmdbListComponent implements OnInit {
   editStatusDcimId:string = "";
   statusErrorMsg = "";
   dcimModule:FacilityModule = new FacilityModule();
-  types:string = "InfoBlox,OtherCMDB,Labsdb"; 
   checkStatus(element:any):any{
     var status = {
       "status":"ACTIVE",
@@ -142,11 +141,14 @@ export class CmdbListComponent implements OnInit {
 	}
   getCMDBConfigdatas(currentPage,pageSize){
     this.cmdbConfigs = [];
-    this.service.getDcimConfigData(currentPage,pageSize,this.types).subscribe(
+    this.service.getDcimConfigData(currentPage,pageSize).subscribe(
       (data)=>{if(data.status == 200){
-            this.cmdbConfigs =  data.json().content;
-            this.cmdbConfigs.forEach(element=>{
+            var types:string[]=["InfoBlox","OtherCMDB","Labsdb"]; 
+            data.json().content.forEach(element=>{
+              if(types.indexOf(element.type) != -1){
                 this.checkStatus(element);
+                this.cmdbConfigs.push(element);
+              }
             })
             this.currentPage = data.json().number+1;
             this.totalPage = data.json().totalPages
